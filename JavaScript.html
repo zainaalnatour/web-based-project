@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Validation Form</title>
+    <link rel="icon" href="Design.jpg">
+    <link rel="stylesheet" href="Background.css">
+    <style>
+  
+       li{
+        list-style: none; display: inline-block;margin-left: 60px;
+        }
+        li a{
+        color:rgb(201, 124, 124); font-size: 18px;font-weight: bold; margin-right: 25px;
+        }
+        .navbar{
+        font-family: 'Calibri';padding-right:15px;padding-left: 15px;
+        }
+        .navdiv{
+        display: flex; align-items: center; justify-content: space-between;
+        }
+        h2 {
+            color: white;
+            background-color: rgba(188, 143, 143, 0.658);
+        }
+
+        p {
+            text-align: center;
+            font-size: 25px;
+        }
+
+        l {
+            text-align: center;
+        }
+
+        .error {
+            color: red;
+            font-size: 17px;
+        }
+
+        #resultContainer {
+            text-align: center; /* Center the result */
+        }
+
+        #textareaContainer {
+            text-align: center; /* Center the textarea */
+        }
+
+    </style>
+</head>
+<body>
+        
+    <h2><i><center>Please fill this form to order!</center></i></h2>
+    <hr><hr>
+    <h3 style="color: rgba(158, 55, 55, 0.658);"><i>✿ Date and Time:</i> <span id="datetime"></span></h3>
+    <form id="Form" onsubmit="return validateForm()">
+        <p>
+            <b><i><label for="name">Name: <br> (3 to 15 characters)</label></i></b><br>
+            <input type="text" id="name" name="name" min="3">
+            <span id="NameError" class="error"></span>
+            <br><br>
+
+            <b><i><label for="age"> Select your age: <br> (15-35)</label></i></b><br>
+            <input type="number" id="age" name="age" min="15" max="35">
+            <span id="ageError" class="error"></span>
+            <br><br>
+
+            <b><i><label>Gender:</label></i></b><br><br>
+            <i><input type="radio" id="male" name="gender" value="male"> Male</i>
+            <i><input type="radio" id="female" name="gender" value="female"> Female</i>
+            <span id="genderError" class="error"></span>
+            <br><br>
+
+            <b><i><label>Preferred Colors:</label></i></b><br><br>
+            <i><input type="checkbox" id="rosegold" name="color" value="rosegold"> Rosegold</i>
+            <i><input type="checkbox" id="silver" name="color" value="silver"> Silver</i>
+            <i><input type="checkbox" id="gold" name="color" value="gold"> Gold</i>
+            <i><input type="checkbox" id="colors" name="color" value="colors"> Colors</i>
+            <span id="colorError" class="error"></span>
+            <br><br>
+
+            <input type="button" value="Calculate" onclick="calculateAndDisplay()">
+            
+        </p>
+        <div id="resultContainer"></div>
+    </form>
+    <div id="textareaContainer">
+        <textarea id="report" rows="10" cols="50" readonly></textarea>
+    </div>
+    <hr><hr>
+    
+    <nav class="navbar">
+        <div class="navdiv">
+            <ul>
+                <li><a href="RMZ (homepage).html">Home Page&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</a>
+                </li>
+                <li><a href="AboutUs.html">About Us&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</a>
+                </li>
+                <li><a href="Products1.html"> Products/Services&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</a>
+                </li>
+                <li>  <a href="ContactUs.html"> Contact Us&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</a>
+                </li>
+                <li><a href="Reviews.html"> Reviews&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</a>
+                </li>
+                <li><a href="Sitemap.html">Sitemap&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp</a>
+                        </h1></li>
+                
+                
+                
+            </ul>
+        </div>
+    </nav>
+    
+
+    <script>
+        function updateDateTime() {
+            var time = new Date();
+            document.getElementById('datetime').innerHTML = time.toLocaleString();
+        }
+
+        setInterval(updateDateTime, 1000);
+
+        function validateForm() {
+            document.getElementById("NameError").innerHTML = "";
+            document.getElementById("ageError").innerHTML = "";
+            document.getElementById("genderError").innerHTML = "";
+            document.getElementById("colorError").innerHTML = "";
+
+            // Validate Name, Age, Gender, and Preferred Colors
+            var name = document.getElementById("name").value;
+            var age = document.getElementById("age").value;
+            var genderMale = document.getElementById("male").checked;
+            var genderFemale = document.getElementById("female").checked;
+
+            // Perform validations
+            if (name == "") {
+                document.getElementById("NameError").innerHTML = "Enter your name! Name cannot be empty.";
+                return false;
+            }
+            if (name.length < 3 || name.length > 15) {
+                document.getElementById("NameError").innerHTML = "Invalid name! Name must be between 3 and 15 characters.";
+                return false;
+            }
+
+            if (age == "") {
+            document.getElementById("ageError").innerHTML = "Please enter your age!";
+            return false;
+           }
+           if (age < 15 || age > 35) {
+            document.getElementById("ageError").innerHTML = "Invalid age! Please enter an age between 15 and 35.";
+            return false;
+          }
+
+          if (genderMale) {
+            document.getElementById("genderError").innerHTML = "Invalid gender! Please choose Female.";
+            return false;
+          }
+          if (!genderMale && !genderFemale) {
+            document.getElementById("genderError").innerHTML = "Please choose your gender!";
+            return false;
+          }
+
+            // Validate at least one preferred color is selected
+            var rosegoldChecked = document.getElementById("rosegold").checked;
+            var silverChecked = document.getElementById("silver").checked;
+            var goldChecked = document.getElementById("gold").checked;
+            var colorsChecked = document.getElementById("colors").checked;
+
+            if (!rosegoldChecked && !silverChecked && !goldChecked && !colorsChecked) {
+                document.getElementById("colorError").innerHTML = "Please choose at least one preferred color!";
+                return false;
+            }
+
+            //if all correct form is validated
+            return true;
+        }
+
+        function calculateAndDisplay() {
+            if (validateForm()) {
+                var calculatedValues = calculateTotal();
+                displayResult(calculatedValues);
+            }
+        }
+
+        function calculateTotal() {
+            // Perform your calculations here based on the form inputs
+            var rosegoldPrice = document.getElementById("rosegold").checked ? parseFloat(prompt("Enter Rosegold Price (JD):")) || 0 : 0;
+            var silverPrice = document.getElementById("silver").checked ? parseFloat(prompt("Enter Silver Price (JD):")) || 0 : 0;
+            var goldPrice = document.getElementById("gold").checked ? parseFloat(prompt("Enter Gold Price(JD):")) || 0 : 0;
+            var colorsPrice = document.getElementById("colors").checked ? parseFloat(prompt("Enter Colors Price (JD):")) || 0 : 0;
+
+            var total = rosegoldPrice + silverPrice + goldPrice + colorsPrice;
+
+            return {
+                rosegoldPrice: rosegoldPrice,
+                silverPrice: silverPrice,
+                goldPrice: goldPrice,
+                colorsPrice: colorsPrice,
+                total: total
+            };
+        }
+
+        function displayResult(calculatedValues) {
+            var resultContainer = document.getElementById("resultContainer");
+            resultContainer.innerHTML = "<p>Calculated Total: " + calculatedValues.total.toFixed(2) + " JD "+ "</p>";
+
+            // Display the result in the textarea along with other information
+            var reportText = "User Information:\n";
+            reportText += "Name: " + document.getElementById("name").value + "\n";
+            reportText += "Age: " + document.getElementById("age").value + "\n";
+            reportText += "Gender: " + (document.getElementById("male").checked ? "Male" : "Female") + "\n";
+            reportText += "Preferred Colors:\n";
+            reportText += document.getElementById("rosegold").checked ? " - Rosegold Price: " + calculatedValues.rosegoldPrice.toFixed(2) + " JD "+ "\n" : "";
+            reportText += document.getElementById("silver").checked ? " - Silver Price: " + calculatedValues.silverPrice.toFixed(2) +  " JD " +"\n" : "";
+            reportText += document.getElementById("gold").checked ? " - Gold Price: " + calculatedValues.goldPrice.toFixed(2) + " JD "+ "\n" : "";
+            reportText += document.getElementById("colors").checked ? " - Colors Price: " + calculatedValues.colorsPrice.toFixed(2) + " JD "+ "\n" : "";
+            reportText += "Calculated Total: " + calculatedValues.total.toFixed(2) + " JD ";
+
+            document.getElementById("report").value = reportText;
+        }
+    </script>
+</body>
+</html>
